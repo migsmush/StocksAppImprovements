@@ -12,6 +12,7 @@ when the number of items displayed in the chart gets somewhat large (100+ items 
 The following files were modified in order to prevent the choppyness when performing a drag gesture over the ChartView:
 
 ## ChartView:
+https://github.com/migsmush/StocksAppImprovements/blob/main/StocksApp/Views/Stock%20Ticker%20Sheet%20Views/ChartView.swift
 - removed all references to vm.selectedX (modifying vm.selectedX on each drag change causes an entire re-render of ChartView due to @ObservedObject ChartViewModel)
 - use vm.isDragging to hide the date picker in StockTickerView, only set to true / false at the start / end of the drag gesture respectively
 - use a state variable for the drag index, using state variable instead of watching a var published by vm prevents the entire view from getting re-constructed
@@ -20,13 +21,16 @@ The following files were modified in order to prevent the choppyness when perfor
 - stop using the Double extension roundedString and simply use string formatting specifier directly when displaying the price Double during drag
 
 ## ChartViewModel
+https://github.com/migsmush/StocksAppImprovements/blob/main/StocksApp/View%20Models/ChartViewModel.swift
 - added new published var isDragging, which StockTickerView is dependent on to show / hide DateRangePickerView
 - assign the two new fields in ChartViewData 'index' and 'formattedDate' in xAxisChartDataAndItems function
 - stop computing the formattedDate string during drag gesture and simply assign it directly to the ChartViewData's ChartViewItem
 ## StockTickerView
+https://github.com/migsmush/StocksAppImprovements/blob/main/StocksApp/Views/Stock%20Ticker%20Sheet%20Views/StockTickerView.swift
 - show / hide DateRangePickerView based on vm.isDragging instead of vm.selectedX
 - remove date displayed on drag gesture since ChartView is now responsible for displaying that
 ## ChartViewData
+https://github.com/migsmush/StocksAppImprovements/blob/main/StocksApp/Models/ChartViewData.swift
 - add two new fields to ChartViewItem 'index' and formattedDate'
 - index allows us to to be able to clean up the chart plotting loop in ChartView so we don't have to enumerate
 - formattedDate allows us to compute the date string in ahead of time instead of on the fly as we drag

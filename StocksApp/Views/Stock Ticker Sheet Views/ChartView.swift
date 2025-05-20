@@ -17,38 +17,32 @@ struct ChartView: View {
     @State var dragIndex: Int? = nil
     
     var body: some View {
-        VStack {
-//            if let dragIndx = dragIndex {
-//                Text(data.items[dragIndx].formattedDate)
-//                    .font(.caption)
-//                    .padding(.bottom, 5)
-//            }
-            ZStack {
-                chart
-                    .chartXAxis { chartXAxis }
-                    .chartXScale(domain: data.xAxisData.axisStart...data.xAxisData.axisEnd)
-                    .chartYAxis { chartYAxis }
-                    .chartYScale(domain: data.yAxisData.axisStart...data.yAxisData.axisEnd)
-                    .chartPlotStyle { chartPlotStyle($0) }
-                chartRulemarks
-                    .chartXAxis { chartXAxis }
-                    .chartXScale(domain: data.xAxisData.axisStart...data.xAxisData.axisEnd)
-                    .chartYAxis { chartYAxis }
-                    .chartYScale(domain: data.yAxisData.axisStart...data.yAxisData.axisEnd)
-                    .chartPlotStyle { chartPlotStyle($0) }
-                    .chartOverlay { proxy in
-                        GeometryReader { gProxy in
-                            Rectangle().fill(.clear).contentShape(Rectangle())
-                                .gesture(DragGesture(minimumDistance: 0)
-                                    .onChanged { onChangeDrag(value: $0, chartProxy: proxy, geometryProxy: gProxy) }
-                                    .onEnded { _ in
-                                        vm.isDragging = false
-                                        self.dragIndex = nil
-                                    }
-                                )
-                        }
+        ZStack {
+            chart
+                .chartXAxis { chartXAxis }
+                .chartXScale(domain: data.xAxisData.axisStart...data.xAxisData.axisEnd)
+                .chartYAxis { chartYAxis }
+                .chartYScale(domain: data.yAxisData.axisStart...data.yAxisData.axisEnd)
+                .chartPlotStyle { chartPlotStyle($0) }
+            chartRulemarks
+                .chartXAxis { chartXAxis }
+                .chartXScale(domain: data.xAxisData.axisStart...data.xAxisData.axisEnd)
+                .chartYAxis { chartYAxis }
+                .chartYScale(domain: data.yAxisData.axisStart...data.yAxisData.axisEnd)
+                .chartPlotStyle { chartPlotStyle($0) }
+                .chartOverlay { proxy in
+                    GeometryReader { gProxy in
+                        Rectangle().fill(.clear).contentShape(Rectangle())
+                            .gesture(DragGesture(minimumDistance: 0)
+                                .onChanged { onChangeDrag(value: $0, chartProxy: proxy, geometryProxy: gProxy) }
+                                .onEnded { _ in
+                                    vm.isDragging = false
+                                    self.dragIndex = nil
+                                }
+                            )
                     }
-            }
+                }
+            
         }
     }
     
